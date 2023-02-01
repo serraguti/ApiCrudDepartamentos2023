@@ -34,5 +34,32 @@ namespace ApiCrudDepartamentos2023.Repositories
                            select datos;
             return consulta.ToList();
         }
+
+        public async Task InsertDepartamentoAsync
+            (int id, string nombre, string localidad)
+        {
+            Departamento departamento = new Departamento();
+            departamento.IdDepartamento = id;
+            departamento.Nombre = nombre;
+            departamento.Localidad = localidad;
+            this.context.Departamentos.Add(departamento);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task UpdateDepartamentoAsync
+            (int id, string nombre, string localidad)
+        {
+            Departamento departamento = this.FindDepartamento(id);
+            departamento.Nombre = nombre;
+            departamento.Localidad = localidad;
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task DeleteDepartamentoAsync(int id)
+        {
+            Departamento departamento = this.FindDepartamento(id);
+            this.context.Departamentos.Remove(departamento);
+            await this.context.SaveChangesAsync();
+        }
     }
 }
